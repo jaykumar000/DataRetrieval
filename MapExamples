@@ -1,0 +1,70 @@
+package com.learn;
+
+import java.util.*;
+
+public class MapExamples {
+
+    public static void main(String args[]) {
+
+        Map<Integer,String[]> nameMaps = new HashMap<>();
+        nameMaps.put(1,new String[] {"Jay","Deep","Dev"});
+        //nameMaps.put(1,new String[] {"Jay","Deep","Dev"});
+        nameMaps.put(2,new String[] {"Papa","Ma"});
+        nameMaps.put(3,new String[] {"Sneha"});
+
+        System.out.println(nameMaps.containsKey(1));
+        System.out.println(nameMaps.keySet().size());
+        System.out.println(nameMaps.get(1)[0]);
+
+        // Returns Set view
+        for (Map.Entry<Integer,String[]> me:nameMaps.entrySet()) {  // if use -- for (Map.Entry<> me: ...
+            System.out.println(me.getKey());
+            System.out.println(me.getValue()[0]);                   //  me.getValue()[0] will give error, so used Map.Entry<Integer,String[]>
+        }
+
+
+
+        // Count the number of words in a String in alphabetical order. Return Output as String.
+        countWordsInString();
+
+
+
+    }
+
+
+
+    public static void countWordsInString() {
+
+
+        String sentence = "blue fisH apple red Fish";
+        Map<String,Integer> wordCount = new HashMap<>();
+        String [] words = sentence.split(" ");
+        for (String word : words) {
+            if (wordCount.containsKey(word.toLowerCase())) {
+                int count = wordCount.get(word.toLowerCase());
+                count = count + 1;
+                wordCount.put(word.toLowerCase(), count);
+            } else {
+                wordCount.put(word.toLowerCase(), 1);
+            }
+        }
+
+        // Sorting a Map in the order of Keys happens only in Tree Map
+        // Hence Create a Tree Map and copy all Hash Map Data into Tree Map.
+        TreeMap<String, Integer> sortedMapByKey = new TreeMap<>();
+        sortedMapByKey.putAll(wordCount);
+
+
+        // Extract all Key Value of the Map
+        Iterator it = sortedMapByKey.entrySet().iterator();
+        String outputString = "";
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            outputString =  outputString+pair.getKey()+"-"+pair.getValue()+" ";
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+
+        System.out.println(outputString);
+    }
+}
